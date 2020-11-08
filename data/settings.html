@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<html>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>RoW-Einstellungen</title>
+		<script type="text/javascript" src="settingsproc.js"></script>
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,700;1,400&family=Sofia&display=swap');
+			table, th, td {
+			  border: thin solid black;
+			  border-collapse: collapse;
+			  padding: 5px;
+			}
+			
+			h1 {
+				font-family: 'Open Sans', sans-serif; font-size: 4em;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				}
+				
+			h2 {
+				font-family: 'Open Sans', sans-serif; font-size: 3em;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				}
+				
+			p {
+				font-family: 'Open Sans', sans-serif; font-size: 1.5em;
+				}
+				
+			.button {
+				font-size: 1em;
+			}
+				
+			.button:hover
+				{background-color: #3e8e41}
+
+			.button:active {
+				background-color: #3e8e41;
+				box-shadow: 0 5px #666;
+				transform: translateY(4px);
+				}
+			input[type=text], select {
+				font-family: 'Open Sans', sans-serif; font-size: 1em;
+				width: 100%;
+				padding: 5px 10px;
+				margin: 5px 0;
+				display: inline-block;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+				box-sizing: border-box;
+				}
+
+			input[type=date], select {
+				font-family: 'Open Sans', sans-serif; font-size: 1em;
+				width: 100%;
+				}
+				
+			input[type=checkbox] {
+				transform: scale(2);
+				}
+			
+
+		</style>
+    </head>
+<body>
+<script>
+</script>
+
+<h1>Einstellungen</h1>
+
+<font size="4em" face="Open Sans" >
+ <table>
+  <tr>
+    <td align="right">Vorname</td>
+	<td>
+	<form>
+		<input type="text" id="vorname">
+	</td>
+  </tr>
+  <tr>
+    <td align="right">Nachname</td>
+	<td>
+	<form>
+		<input type="text" id="nachname">
+	</td>
+  </tr>
+  <tr>
+    <td align="right">Geschlecht</td>
+    <td align="left">
+		<form>
+		  <input type="radio" id="female" name="gender" value=1 checked>
+		  <label for="female">weiblich</label><br>
+		  <input type="radio" id="male" name="gender" value=0>
+		  <label for="male">männlich</label><br>
+		</form>
+	</td>
+  </tr>
+  <tr>
+    <td align="right">Förmlich</td>
+    <td><input type="checkbox" id="foermlich" checked></td>
+  </tr>
+  <tr>
+    <td align="right">Ruhestand ab</td>
+    <td align="left">
+	<input type="date" id="renteInput" 	min="2018-01-01"</td>
+  </tr>
+  <tr>
+    <td align="right">LED-Helligkeit</td>
+    <td align="left">
+	<input type="number" id="bright" min="1" max="6"> (1..6)</td>
+  </tr>
+  <tr>
+    <td align="right">LED blinken</td>
+    <td><input type="checkbox" id="blink"></td>
+  </tr>
+</table>
+<br>
+<button class="button" onclick="sendJSON()" id="RetSpeichern">speichern</button>
+</font>
+
+<p><a href="index.html">zur&uuml;ck</a></p>
+<p id="Heute"></p>
+
+
+
+</body>
+</html>

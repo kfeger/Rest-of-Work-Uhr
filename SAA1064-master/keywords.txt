@@ -1,0 +1,31 @@
+#######################################
+# Syntax Coloring Map For SAA1064
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+SAA1064	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin		KEYWORD2
+snake		KEYWORD2
+print		KEYWORD2
+printTemp 	KEYWORD2
+printHum 	KEYWORD2
+printDashDash	KEYWORD2
+printDotDot	KEYWORD2
+printTime	KEYWORD2
+brightness	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+DIGIT	LITERAL1
+SEG	LITERAL1
+CONTROL_BYTE	LITERAL1
+
+#######################################
+

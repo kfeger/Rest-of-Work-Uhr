@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+<html>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>Die Rente naht!</title>
+		<link rel="stylesheet" type="text/css" href="indexstyle.css">
+		<script type="text/javascript" src="indexproc.js"></script>
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Monofett&family=Monoton&family=Open+Sans:ital,wght@0,300;0,700;1,400&family=Sofia&display=swap');
+			@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+		</style> 
+    </head>
+<body>
+
+<div class="bilder">
+<img src="\Ruhestand-lange.png" alt="Bild vom ESP8266" width="300" height="200">
+<br>
+<span id="BlinkLED">...</span>
+</div>
+<div class = "hallo">
+  <h3>Hallo <span id="anrede"></span><span id="name">...</span>!</h3><p></p>
+</div>
+<div class= "texte">
+  <h1>Es ist <span id="wochentag">...</span>,<br>
+  der <span id="tag">...</span>, <span id="uhrzeit">...</span></h1>
+  <h2>Strecke bis zum Ziel...<br>
+  ...noch <font color = "red"><span id="rentein">... </span></font> Tage.</h2>
+</div>
+
+<font size="4em" face="Open Sans" >
+ <table>
+
+  <tr>
+    <td align="right">Test Temperatur</td>
+    <td align="right"><span id="temperatur">...</span></td>
+    <td align="left">°C</td>
+  </tr>
+  <tr>
+    <td align="right">Luftfeuchte</td>
+    <td align="right"><span id="feuchte">...</span></td>
+    <td align="left">%rH</td>
+  </tr>
+  <tr>
+    <td align="right">Luftdruck</td>
+    <td align="right"><span id="druck">...</span></td>
+    <td align="left">hPa</td>
+  </tr>
+  <tr>
+    <td align="right">Raumhelligkeit</td>
+    <td align="right"><span id="helligkeit">...</span></td>
+    <td align="left">lx</td>
+  </tr>
+  <tr>
+    <td align="right">Versorgungsspg.</td>
+    <td align="right"><span id="vcc">...</span></td>
+    <td align="left">mV</td>
+  </tr>
+
+</table>
+</font>
+<br>
+<div style="font-size:0.75em">
+	<a href="settings.html" class="button5" style="background-color:#42cc8c;">Einstellungen</a>
+	<!-- <a href="something" class="button5" style="border-color:#FFFFFF; background-color:rgba(0,0,0,0); color:#FFFFFF">View source code on SJWhub</a> -->
+</div>
+
+<p><a href="json.html" style="text-decoration: none"  target="_blank">Version</a>sdatum: <span id="compile">---</span>, c by ottO 2020</p>
+</body>
+</html>

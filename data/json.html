@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>RoW-JSON-Daten</title>
+		<link rel="stylesheet" href="stil.css">
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,700;1,400&family=Sofia&display=swap');
+			table, th, td {
+			  border: thin solid black;
+			  border-collapse: collapse;
+			  padding: 5px;
+			}
+			
+			h1 {
+				font-family: 'Open Sans', sans-serif; font-size: 2.3em;
+				margin-top: 10px;
+				margin-bottom: 10px;
+				}
+
+		</style> 
+    </head>
+<body>
+<script>
+var Counter = 0;
+var EpochRente;
+var url = window.location.hostname;
+
+getJSON();
+//document.addEventListener("DOMContentLoaded", function(event) { 
+//  putCounter();
+//});
+
+setInterval(function() {
+  // Call der Function mit 5 Sekunden Interval
+  getData()
+  getJSON();
+  MakeRenteDatum(EpochRente);
+}, 1000); //1000ms update rate
+
+setInterval(function() {
+  // Call der Function mit 5 Sekunden Interval
+  putCounter();
+  MakeRenteDatum(EpochRente);
+}, 2000); //1000ms update rate
+
+function getData() {
+  var xhttp = new XMLHttpRequest();
+  var LedValue;
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+		Counter++;
+    }
+  };
+  xhttp.open("GET", "readLED", true);
+  xhttp.send();
+}
+
+
+function getJSON() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+		var ESPObj = JSON.parse(this.responseText);
+		document.getElementById("vorname").innerHTML = ESPObj.vorname;
+		document.getElementById("nachname").innerHTML = ESPObj.nachname;
+		document.getElementById("foermlich").innerHTML = ESPObj.foermlich;
+		document.getElementById("geschlecht").innerHTML = ESPObj.geschlecht;
+		document.getElementById("wochentag").innerHTML = ESPObj.wochentag;
+		document.getElementById("tag").innerHTML = ESPObj.tag;
+		document.getElementById("uhrzeit").innerHTML = ESPObj.uhrzeit;
+		document.getElementById("compile").innerHTML = ESPObj.compile;
+		document.getElementById("rentein").innerHTML = ESPObj.rentein;
+		document.getElementById("rente").innerHTML = ESPObj.rente;
+		EpochRente = ESPObj.rente;
+		document.getElementById("temperatur").innerHTML = ESPObj.temperatur;
+		document.getElementById("feuchte").innerHTML = ESPObj.feuchte;
+		document.getElementById("druck").innerHTML = ESPObj.druck;
+		document.getElementById("helligkeit").innerHTML = ESPObj.helligkeit;
+		document.getElementById("bright").innerHTML = ESPObj.bright;
+		document.getElementById("blink").innerHTML = ESPObj.blink;
+		document.getElementById("vcc").innerHTML = ESPObj.vcc;
+		document.getElementById("host").innerHTML = "http://" + url;
+		document.getElementById("displayCount").innerHTML = Counter;
+	}
+  };
+  xhttp.open("GET", "readJSON", true);
+  xhttp.send();
+}
+
+/*function putCounter() {
+	document.getElementById("displayCount").innerHTML = Counter;
+	//document.getElementById("rentedatum").innerHTML = DateRente;
+	Counter = Counter + 1;
+	}*/
+	
+function MakeRenteDatum(TimeIn){
+	var jsEpoch;
+	var RenteString;
+	var monate = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+	jsEpoch = new Date(TimeIn * 1000);
+	RenteString = jsEpoch.getDate()+"."+monate[jsEpoch.getMonth()]+" "+jsEpoch.getFullYear();
+	document.getElementById("rentedatum").innerHTML = RenteString;
+   }
+
+	
+</script>
+
+<h1>
+Inhalt der JSON-Daten vom ESP
+<br>
+</h1>
+
+<font size="4em" face="Open Sans" >
+ <table>
+
+  <tr>
+    <td align="right">Vorname</td>
+    <td align="right"><span id="vorname">...</span></td>
+    <td align="left">      </td>
+	<td align="left">aus EEPROM</td>
+  </tr>
+  <tr>
+    <td align="right">Nachname</td>
+    <td align="right"><span id="nachname">...</span></td>
+    <td align="left"></td>
+	<td align="left">aus EEPROM</td>
+  </tr>
+  <tr>
+    <td align="right">Förmlich</td>
+    <td align="right"><span id="foermlich">...</span></td>
+    <td align="left"></td>
+	<td align="left">aus EEPROM</td>
+  </tr>
+  <tr>
+    <td align="right">Geschlecht</td>
+    <td align="right"><span id="geschlecht">...</span></td>
+    <td align="left"></td>
+	<td align="left">aus EEPROM</td>
+  </tr>
+  <tr>
+    <td align="right">Rentendatum (Epoch)</td>
+    <td align="right"><span id="rente">...</span></td>
+    <td align="left">Sekunden</td>
+	<td align="left">aus EEPROM</td>
+  </tr>
+  <tr>
+    <td align="right">Renteneintritt am</td>
+    <td align="right"><span id="rentedatum">...</span></td>
+    <td align="left"></td>
+	<td align="left">lokal erzeugt</td>
+  </tr>
+  <tr>
+    <td align="right">damit Rente in</td>
+    <td align="right"><span id="rentein">...</span></td>
+    <td align="left">Tage</td>
+  </tr>
+  <tr>
+    <td align="right">Heute</td>
+    <td align="right"><span id="tag">...</span></td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right">Wochentag</td>
+    <td align="right"><span id="wochentag">...</span></td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right">Jetzt</td>
+    <td align="right"><span id="uhrzeit">...</span></td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right">Vcc</td>
+    <td align="right"><span id="vcc">...</span></td>
+    <td align="left">mV</td>
+  </tr>
+  <tr>
+    <td align="right">Temperatur</td>
+    <td align="right"><span id="temperatur">...</span></td>
+    <td align="left">°C</td>
+  </tr>
+  <tr>
+    <td align="right">Luftfeuchte</td>
+    <td align="right"><span id="feuchte">...</span></td>
+    <td align="left">%rH</td>
+  </tr>
+  <tr>
+    <td align="right">Luftdruck</td>
+    <td align="right"><span id="druck">...</span></td>
+    <td align="left">hPa</td>
+  </tr>
+  <tr>
+    <td align="right">Raumhelligkeit</td>
+    <td align="right"><span id="helligkeit">...</span></td>
+    <td align="left">lux</td>
+  </tr>
+  <tr>
+    <td align="right">LED-Helligkeit</td>
+    <td align="right"><span id="bright">...</span></td>
+    <td align="left"></td>
+	<td align="left">aus EEPROM</td>
+  </tr>
+  <tr>
+    <td align="right">LED blinken</td>
+    <td align="right"><span id="blink">...</span></td>
+    <td align="left"></td>
+	<td align="left">aus EEPROM</td>
+  </tr>
+  <tr>
+    <td align="right">Kompilezeit</td>
+    <td align="right"><span id="compile">...</span></td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right">Host</td>
+    <td align="right"><span id="host">...</span></td>
+    <td align="right"></td>
+	<td align="center"> <span id="displayCount"></span></td>
+  </tr>
+
+</table>
+</font>
+</body>
+</html>
+
