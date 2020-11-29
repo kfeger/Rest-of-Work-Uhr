@@ -83,6 +83,7 @@ void handleJSON(void) {
     doc["helligkeit"] = "--";
   doc["bright"] = Daten.LED_Bright;
   doc["blink"] = Daten.LED_Blink;
+  doc["showIP"] = Daten.ShowIP;
   if (Sensoren.bmeOK) {
     doc["temperatur"] = (int)Sensoren.Temperatur;
     doc["feuchte"] = (int)Sensoren.Feuchte;
@@ -120,12 +121,7 @@ void readJSON() {
   Daten.rente = doc["rente"];
   Daten.LED_Bright = doc["bright"];
   Daten.LED_Blink = doc["blink"];
-  /*Serial.println("Daten von Client empfangen:");
-    Serial.println(Daten.vorname);
-    Serial.println(Daten.nachname);
-    Serial.println(Daten.foermlich);
-    Serial.println(Daten.geschlecht);*/
-  //Serial.println(Daten.rente);
+  Daten.ShowIP = doc["showIP"];
   PutEE();
   Serial.println("Daten gespeichert");
 }

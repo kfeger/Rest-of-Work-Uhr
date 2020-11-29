@@ -18,6 +18,13 @@ String MakeTimeString(time_t DateTime) {
   return TimeString;
 }
 
+int MakeDateDisplay (void) {
+  int Day, Month;
+  Day = day(now());
+  Month = month(now());
+  return(Day * 100 + Month);
+}
+
 time_t SyncTimeToNTP(void) {
   Serial.println("******Time-Sync******");
   timeClient.update();

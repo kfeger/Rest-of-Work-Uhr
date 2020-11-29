@@ -32,8 +32,13 @@ function getJSON() {	// Variablen aus EEPROM laden
 		if (ESPObj.blink == 1)
 			document.getElementById("blink").checked = true;
 		else
-			document.getElementById("blink").checked = false;
+			document.getElementById("blink").checked = false;			
 			
+		if (ESPObj.showIP == 1)
+			document.getElementById("ipaddress").checked = true;
+		else
+			document.getElementById("ipaddress").checked = false;
+
 		if (ESPObj.geschlecht == 1) {	// 1 = weiblich, kein it
 			document.getElementById("female").checked = true;
 			document.getElementById("male").checked = false;
@@ -78,6 +83,11 @@ function sendJSON() {
 		sendObj.blink = 1;
 	else
 		sendObj.blink = 0;
+	
+	if (document.getElementById("ipaddress").checked == true)
+		sendObj.showIP = 1;
+	else
+		sendObj.showIP = 0;
 	
 	if (document.getElementById("female").checked == true)
 		sendObj.geschlecht = 1;

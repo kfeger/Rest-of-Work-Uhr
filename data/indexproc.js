@@ -44,13 +44,15 @@ function getJSON() {
 		nachname = ESPObj.nachname;
 		geschlecht = ESPObj.geschlecht;
 		foermlich = ESPObj.foermlich;
-		if (foermlich == 0)
+		if (foermlich == 0) {
+			document.getElementById("anrede").innerHTML = "Hallo";
 			document.getElementById("name").innerHTML = ESPObj.vorname;
+		}
 		else {
 			if(geschlecht == 1)
-				document.getElementById("anrede").innerHTML = "Frau ";
+				document.getElementById("anrede").innerHTML = "Sehr geehrte<br>Frau";
 			else
-				document.getElementById("anrede").innerHTML = "Herr ";
+				document.getElementById("anrede").innerHTML = "Sehr geehrter<br>Herr";
 			document.getElementById("name").innerHTML = ESPObj.nachname;
 		}
 		document.getElementById("wochentag").innerHTML = ESPObj.wochentag;

@@ -24,6 +24,7 @@
 #define ARDUINOJSON_USE_LONG_LONG 1
 #include <ArduinoJson.h>
 
+
 #define sdaPIN D2
 #define sclPIN D1
 #define startAP D5
@@ -33,11 +34,24 @@
 ADC_MODE(ADC_VCC);
 
 // ***** UDP, NTP und Timezone *****
+
+//#define CHILE
+
 // local time zone definition
-// Central European Time (Frankfurt, Paris) from Timezone/examples/WorldClock/WorldClock.pde
-TimeChangeRule CEST = {"CEST", Last, Sun, Mar, 2, 120};     //Central European Summer Time
-TimeChangeRule CET = {"CET ", Last, Sun, Oct, 3, 60};       //Central European Standard Time
-Timezone LTZ(CEST, CET);    // this is the Timezone object that will be used to calculate local time
+#if defined CHILE
+  #pragma message("Compile für Santiago de Chile")
+  // Chile Standard Time für Santiago
+  TimeChangeRule CLT = {"CLT", First, Sun, Sep, 0, -180};     //Chile Standard Time
+  TimeChangeRule CLST = {"CLST", Last, Sun, Apr, 0, -240};       //Chile Summer Time
+  Timezone LTZ(CLST, CLT);    // this is the Timezone object that will be used to calculate local time
+#else
+  #pragma message("Compile für mitteleuropäische Zeit")
+  // Central European Time (Frankfurt, Paris) from Timezone/examples/WorldClock/WorldClock.pde
+  TimeChangeRule CEST = {"CEST", Last, Sun, Mar, 2, 120};     //Central European Summer Time
+  TimeChangeRule CET = {"CET ", Last, Sun, Oct, 3, 60};       //Central European Standard Time
+  Timezone LTZ(CEST, CET);    // this is the Timezone object that will be used to calculate local time
+#endif
+
 TimeChangeRule *tcr;        //pointer to the time change rule, use to get the TZ abbrev
 
 
@@ -88,6 +102,7 @@ struct EEData_t {
   int ShowMore;
   int LED_Bright;
   int LED_Blink;
+  int ShowIP;
 };
 
 time_t DaysLeft = 0;
@@ -115,7 +130,7 @@ void setup() {
   Sensoren.bhOK = Licht.begin();
   Sensoren.bmeOK = bme.begin(0x76);
   delay(100);
-  SAA.brightness(5);
+  SAA.brightness(2);
   SAA.dash();  // Display dashes
   Serial.println("");
   Serial.println("Geht los!");
@@ -136,21 +151,22 @@ void setup() {
     delay(5000);
   }
   ip = WiFi.localIP();
-  Serial.print("IP address: ");
-  Serial.println(ip);  //IP address assigned to your ESP
+  //Serial.print("IP address: ");
+  //Serial.println(ip);  //IP address assigned to your ESP
+  Serial.printf("IP-Adresse ist %d.%d.%d.%d\n",ip[0],ip[1],ip[2],ip[3]);
   for (int i = 0; i < 4; i++) {
     SAA.print((int)ip[i], 1);
     delay(1500);
   }
   //WiFi.printDiag(Serial);
-  udp.begin(localPort);
+  //udp.begin(localPort);
   delay(100);
   setSyncProvider(SyncTimeToNTP);
   setSyncInterval(1800);
   LastSync = now();
 
   LastShow = now();
-  SAA.brightness(CalcBrightness());
+  //SAA.brightness(CalcBrightness());
   delay(1000);
   InitEE();
   GetEE();
@@ -217,6 +233,11 @@ void loop() {
 void DisplayData(void) {
   if (Daten.ShowMore) {
     switch (second(now())) {
+      case 14:
+      case 15:
+      case 16:
+        SAA.print(MakeDateDisplay(), 5);
+        break;
       case 29:
       case 30:
       case 31:
@@ -230,8 +251,6 @@ void DisplayData(void) {
           SAA.printYear(DaysLeftShort);  // Jahre bis Ruhestand
         }
         break;
-      case 14:
-      case 15:
       case 44:
       case 45:
         if (Sensoren.bmeOK)
@@ -239,8 +258,6 @@ void DisplayData(void) {
         else
           SAA.printDashDash(1);
         break;
-      case 16:
-      case 17:
       case 46:
       case 47:
         if (Sensoren.bmeOK)
@@ -249,16 +266,64 @@ void DisplayData(void) {
           SAA.printDashDash(2);
         break;
       case 56:
-        SAA.print((int)ip[0], 1);
+        if (Daten.ShowIP)
+          SAA.print((int)ip[0], 1);
+        else {
+          if (Daten.LED_Blink) {
+            if (second(now()) & 1)
+              SAA.printTime(hour(now()) * 100 + minute(now()), true);
+            else
+              SAA.printTime(hour(now()) * 100 + minute(now()), false);
+          }
+          else {
+            SAA.printTime(hour(now()) * 100 + minute(now()), true);
+          }
+        }
         break;
       case 57:
-        SAA.print((int)ip[1], 1);
+        if (Daten.ShowIP)
+          SAA.print((int)ip[1], 1);
+        else {
+          if (Daten.LED_Blink) {
+            if (second(now()) & 1)
+              SAA.printTime(hour(now()) * 100 + minute(now()), true);
+            else
+              SAA.printTime(hour(now()) * 100 + minute(now()), false);
+          }
+          else {
+            SAA.printTime(hour(now()) * 100 + minute(now()), true);
+          }
+        }
         break;
       case 58:
-        SAA.print((int)ip[2], 1);
+        if (Daten.ShowIP)
+          SAA.print((int)ip[2], 1);
+        else {
+          if (Daten.LED_Blink) {
+            if (second(now()) & 1)
+              SAA.printTime(hour(now()) * 100 + minute(now()), true);
+            else
+              SAA.printTime(hour(now()) * 100 + minute(now()), false);
+          }
+          else {
+            SAA.printTime(hour(now()) * 100 + minute(now()), true);
+          }
+        }
         break;
       case 59:
-        SAA.print((int)ip[3], 1);
+        if (Daten.ShowIP)
+          SAA.print((int)ip[3], 1);
+        else {
+          if (Daten.LED_Blink) {
+            if (second(now()) & 1)
+              SAA.printTime(hour(now()) * 100 + minute(now()), true);
+            else
+              SAA.printTime(hour(now()) * 100 + minute(now()), false);
+          }
+          else {
+            SAA.printTime(hour(now()) * 100 + minute(now()), true);
+          }
+        }
         break;
       default:
         if (Daten.LED_Blink) {

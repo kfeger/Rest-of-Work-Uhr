@@ -15,6 +15,7 @@ void InitEE (void) {
     Daten.ShowMore = 1;
     Daten.LED_Bright = 5;
     Daten.LED_Blink = 0;
+    Daten.ShowIP = 1;
     EEPROM.put(0, Daten);
     EEPROM.commit();
     Serial.println("EEPROM initialisiert");

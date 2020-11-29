@@ -9,7 +9,7 @@
 			table, th, td {
 			  border: thin solid black;
 			  border-collapse: collapse;
-			  padding: 5px;
+			  padding: 2px;
 			}
 			
 			h1 {
@@ -79,6 +79,7 @@ function getJSON() {
 		document.getElementById("helligkeit").innerHTML = ESPObj.helligkeit;
 		document.getElementById("bright").innerHTML = ESPObj.bright;
 		document.getElementById("blink").innerHTML = ESPObj.blink;
+		document.getElementById("ipaddress").innerHTML = ESPObj.showIP;
 		document.getElementById("vcc").innerHTML = ESPObj.vcc;
 		document.getElementById("host").innerHTML = "http://" + url;
 		document.getElementById("displayCount").innerHTML = Counter;
@@ -139,13 +140,13 @@ Inhalt der JSON-Daten vom ESP
 	<td align="left">aus EEPROM</td>
   </tr>
   <tr>
-    <td align="right">Rentendatum (Epoch)</td>
+    <td align="right">Renteneintritt (Epoch)</td>
     <td align="right"><span id="rente">...</span></td>
     <td align="left">Sekunden</td>
 	<td align="left">aus EEPROM</td>
   </tr>
   <tr>
-    <td align="right">Renteneintritt am</td>
+    <td align="right">Renteneintritt (Datum)</td>
     <td align="right"><span id="rentedatum">...</span></td>
     <td align="left"></td>
 	<td align="left">lokal erzeugt</td>
@@ -204,6 +205,12 @@ Inhalt der JSON-Daten vom ESP
   <tr>
     <td align="right">LED blinken</td>
     <td align="right"><span id="blink">...</span></td>
+    <td align="left"></td>
+	<td align="left">aus EEPROM</td>
+  </tr>
+  <tr>
+    <td align="right">IP-Adr. anzeigen</td>
+    <td align="right"><span id="ipaddress">...</span></td>
     <td align="left"></td>
 	<td align="left">aus EEPROM</td>
   </tr>
