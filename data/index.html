@@ -3,6 +3,7 @@
 <html>
     <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Die Rente naht!</title>
 		<link rel="stylesheet" type="text/css" href="indexstyle.css">
 		<script type="text/javascript" src="indexproc.js"></script>
@@ -11,12 +12,13 @@
 			@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 		</style> 
     </head>
-<body>
+	
+<body onload="PreLoadImages()">
 
 <div class="bilder">
-<img src="\Ruhestand-lange.png" alt="Bild vom ESP8266" width="300" height="200">
+<img src="/Ruhestand-lange.png" width="300" height="200">
 <br>
-<span id="BlinkLED">...</span>
+<span id="BlinkLED"></span>
 </div>
 <div class = "hallo">
   <h3><span id="anrede"></span> <span id="name">...</span>!</h3><p></p>
@@ -24,8 +26,9 @@
 <div class= "texte">
   <h1>Es ist <span id="wochentag">...</span>,<br>
   der <span id="tag">...</span>, <span id="uhrzeit">...</span></h1>
-  <h2>Strecke bis zum Ziel...<br>
-  ...noch <font color = "red"><span id="rentein">... </span></font> Tage.</h2>
+  <span id="renteText">... </span>
+  <h2>Inzidenz für <span id="county">... </span><br>
+  ist heute <span id="inzidenz">... </span></h2><br>
 </div>
 
 <font size="4em" face="Open Sans" >
@@ -60,11 +63,19 @@
 </table>
 </font>
 <br>
-<div style="font-size:0.75em">
-	<a href="settings.html" class="button5" style="background-color:#42cc8c;">Einstellungen</a>
-	<!-- <a href="something" class="button5" style="border-color:#FFFFFF; background-color:rgba(0,0,0,0); color:#FFFFFF">View source code on SJWhub</a> -->
-</div>
+<font size="4em" face="Open Sans" >
+	<!--<a href="settings.html" class="favorite styled">Einstellungen</a>
+	<a href="https://webglsamples.org/aquarium/aquarium.html" target="_blank" class="favorite styled">Fisch!</a>-->
+<tr>
+	<td><a href="settings.html"><button class="favorite styled">Einstellungen</button></a></td>
+	<td><a href="https://webglsamples.org/aquarium/aquarium.html" target="_blank"><button class="favorite styled" >Fisch!</button></a></td>
+</tr>
 
-<p><a href="json.html" style="text-decoration: none"  target="_blank">Version</a>sdatum: <span id="compile">---</span>, c by ottO 2020</p>
+
+<p><a href="json.html" style="text-decoration: none"  target="_blank">Version</a>sdatum: <span id="compile">---</span><br>
+Projekt: <span id="baseFile">---</span><br>
+<b>&copy; by ottO 2020</b>
+<br>Seriennummer: <span id="serialnumber"><br>
+</p>
 </body>
 </html>

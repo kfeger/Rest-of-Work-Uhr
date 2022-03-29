@@ -23,30 +23,29 @@ p {
 	font-family: 'Open Sans', sans-serif; 	font-size: 1em;
 	}
 
-a.button5{
-	display:inline-block;
-	padding:0.46em 1.6em;
-	border:0.1em solid #000000;
-	margin:0 0.2em 0.2em 0;
-	border-radius:0.12em;
-	box-sizing: border-box;
-	text-decoration:none;
-	font-family:'Roboto',sans-serif;
-	font-weight:300;
-	color:#000000;
-	text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
-	background-color:#FFFFFF;
-	text-align:center;
-	transition: all 0.15s;
-	}
-a.button5:hover{
-	text-shadow: 0 0 2em rgba(255,255,255,1);
-	color:#FFFFFF;
-	border-color:#FFFFFF;
-	}
-@media all and (max-width:30em){
-	a.button5{
-		display:block;
-		margin:0.4em auto;
-		}
-	}
+.styled {
+	border: 0;
+	line-height: 2.5;
+	padding: 0 20px;
+	font-size: 1rem;
+	text-align: center;
+	color: #fff;
+	text-shadow: 1px 1px 1px #000;
+	border-radius: 10px;
+	background-color: rgba(220, 0, 0, 1);
+	background-image: linear-gradient(to top left,
+									  rgba(0, 0, 0, .2),
+									  rgba(0, 0, 0, .2) 30%,
+									  rgba(0, 0, 0, 0));
+	box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+				inset -2px -2px 3px rgba(0, 0, 0, .6);
+}
+
+.styled:hover {
+	background-color: rgba(255, 0, 0, 1);
+}
+
+.styled:active {
+	box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+				inset 2px 2px 3px rgba(0, 0, 0, .6);
+}

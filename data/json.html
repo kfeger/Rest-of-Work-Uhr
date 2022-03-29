@@ -2,6 +2,7 @@
 <html lang="de">
     <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>RoW-JSON-Daten</title>
 		<link rel="stylesheet" href="stil.css">
 		<style>
@@ -40,9 +41,9 @@ setInterval(function() {
 
 setInterval(function() {
   // Call der Function mit 5 Sekunden Interval
-  putCounter();
+  //putCounter();
   MakeRenteDatum(EpochRente);
-}, 2000); //1000ms update rate
+}, 5000); //5000ms update rate
 
 function getData() {
   var xhttp = new XMLHttpRequest();
@@ -75,14 +76,29 @@ function getJSON() {
 		EpochRente = ESPObj.rente;
 		document.getElementById("temperatur").innerHTML = ESPObj.temperatur;
 		document.getElementById("feuchte").innerHTML = ESPObj.feuchte;
-		document.getElementById("druck").innerHTML = ESPObj.druck;
+        
+        if(ESPObj.druck == 0)
+            document.getElementById("druck").innerHTML = "kein Sensor";
+        else
+            document.getElementById("druck").innerHTML = ESPObj.druck;
+        
 		document.getElementById("helligkeit").innerHTML = ESPObj.helligkeit;
 		document.getElementById("bright").innerHTML = ESPObj.bright;
+		document.getElementById("signal").innerHTML = ESPObj.signal;
 		document.getElementById("blink").innerHTML = ESPObj.blink;
 		document.getElementById("ipaddress").innerHTML = ESPObj.showIP;
 		document.getElementById("vcc").innerHTML = ESPObj.vcc;
 		document.getElementById("host").innerHTML = "http://" + url;
 		document.getElementById("displayCount").innerHTML = Counter;
+		document.getElementById("ags").innerHTML = ESPObj.ags;
+		document.getElementById("county").innerHTML = ESPObj.county;
+		document.getElementById("inzidenz").innerHTML = ESPObj.inzidenz;
+		document.getElementById("showInz").innerHTML = ESPObj.showInz;
+		document.getElementById("baseFile").innerHTML = ESPObj.baseFile;
+		document.getElementById("serialnumber").innerHTML = ESPObj.serialnumber;
+		document.getElementById("resetReason").innerHTML = ESPObj.resetReason;
+		document.getElementById("startTime").innerHTML = ESPObj.startTime;
+		document.getElementById("crash").innerHTML = ESPObj.crash;
 	}
   };
   xhttp.open("GET", "readJSON", true);
@@ -160,41 +176,55 @@ Inhalt der JSON-Daten vom ESP
     <td align="right">Heute</td>
     <td align="right"><span id="tag">...</span></td>
     <td align="left"></td>
+	<td align="left">von NTP</td>
   </tr>
   <tr>
     <td align="right">Wochentag</td>
     <td align="right"><span id="wochentag">...</span></td>
     <td align="left"></td>
+	<td align="left">von NTP</td>
   </tr>
   <tr>
     <td align="right">Jetzt</td>
     <td align="right"><span id="uhrzeit">...</span></td>
     <td align="left"></td>
+	<td align="left">von NTP</td>
   </tr>
   <tr>
     <td align="right">Vcc</td>
     <td align="right"><span id="vcc">...</span></td>
     <td align="left">mV</td>
+	<td align="left">von CPU</td>
+  </tr>
+  <tr>
+    <td align="right">RSSI</td>
+    <td align="right"><span id="signal">...</span></td>
+    <td align="left">dBm</td>
+	<td align="left">von ESP</td>
   </tr>
   <tr>
     <td align="right">Temperatur</td>
     <td align="right"><span id="temperatur">...</span></td>
     <td align="left">°C</td>
+	<td align="left">von Klimasensor</td>
   </tr>
   <tr>
     <td align="right">Luftfeuchte</td>
     <td align="right"><span id="feuchte">...</span></td>
     <td align="left">%rH</td>
+	<td align="left">von Klimasensor</td>
   </tr>
   <tr>
     <td align="right">Luftdruck</td>
     <td align="right"><span id="druck">...</span></td>
     <td align="left">hPa</td>
+	<td align="left">von Klimasensor</td>
   </tr>
   <tr>
     <td align="right">Raumhelligkeit</td>
     <td align="right"><span id="helligkeit">...</span></td>
     <td align="left">lux</td>
+	<td align="left">von Lichtsensor</td>
   </tr>
   <tr>
     <td align="right">LED-Helligkeit</td>
@@ -209,6 +239,30 @@ Inhalt der JSON-Daten vom ESP
 	<td align="left">aus EEPROM</td>
   </tr>
   <tr>
+    <td align="right">AGS</td>
+    <td align="right"><span id="ags">...</span></td>
+    <td align="left"></td>
+	<td align="left">aus EEPROM</td>
+  </tr>
+  <tr>
+    <td align="right">Ort</td>
+    <td align="right"><span id="county">...</span></td>
+    <td align="left"></td>
+	<td align="left">von RKI</td>
+  </tr>
+  <tr>
+    <td align="right">Inzidenz</td>
+    <td align="right"><span id="inzidenz">...</span></td>
+    <td align="left"></td>
+	<td align="left">von RKI</td>
+  </tr>
+  <tr>
+    <td align="right">Inzidenz anzeigen</td>
+    <td align="right"><span id="showInz">...</span></td>
+    <td align="left"></td>
+	<td align="left">aus EEPROM</td>
+  </tr>
+  <tr>
     <td align="right">IP-Adr. anzeigen</td>
     <td align="right"><span id="ipaddress">...</span></td>
     <td align="left"></td>
@@ -216,13 +270,37 @@ Inhalt der JSON-Daten vom ESP
   </tr>
   <tr>
     <td align="right">Kompilezeit</td>
-    <td align="right"><span id="compile">...</span></td>
+    <td  colspan="2" align="left"><span id="compile">...</span></td>
     <td align="left"></td>
   </tr>
   <tr>
+    <td align="right">letzter Start am</td>
+    <td colspan="2" align="right"><span id="startTime">...</span></td>
+	<td align="left">aus ESP8266</td>
+  </tr>
+  <tr>
+    <td align="right">Reset Grund</td>
+    <td colspan="2" align="right"><span id="resetReason">...</span></td>
+	<td align="left">aus ESP8266</td>
+  </tr>
+  <tr>
+    <td align="right">Last Crash</td>
+    <td colspan="2" align="right"><span id="crash">...</span></td>
+	<td align="left">aus EEPROM</td>
+  </tr>
+  <tr>
+    <td align="right">Projekt</td>
+    <td colspan="3" align="left"><span id="baseFile">...</span></td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right">Seriennummer</td>
+    <td colspan="2" align="left"><span id="serialnumber">...</span></td>
+	<td align="left">Random</td>
+  </tr>
+  <tr>
     <td align="right">Host</td>
-    <td align="right"><span id="host">...</span></td>
-    <td align="right"></td>
+    <td colspan="2" align="left"><span id="host">...</span></td>
 	<td align="center"> <span id="displayCount"></span></td>
   </tr>
 

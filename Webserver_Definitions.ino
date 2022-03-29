@@ -3,7 +3,7 @@ void DefServerFunctions(void) {
   server.on("/readLED", handleLED);
   server.on("/readJSON", handleJSON);
   server.on("/getJSON", readJSON);
-  //Initialize Webserver
-  server.on("/", handleRoot);
+  server.on("/rebootHost", rebootHost);
+  server.on("/initEEPROM", initEEPROM);
   server.onNotFound(handleWebRequests); //Set setver all paths are not found so we can handle as per URI
 }

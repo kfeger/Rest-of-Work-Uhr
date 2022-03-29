@@ -57,24 +57,29 @@ void handleLED() {
 void handleJSON(void) {
   static int CallCounter = 0;
   time_t renteFix = 1919635200;
-  const size_t capacity = JSON_OBJECT_SIZE(22);
+  const size_t capacity = JSON_OBJECT_SIZE(64);
   DynamicJsonDocument doc(capacity);
-  char JSONBuffer[512];
-  String OutputBuffer;
-  String strVorname, strNachname;
+  char JSONBuffer[2048];
+  String strOutput;
+  //String strVorname, strNachname, strCrash;
   GetEE();
-  strVorname = Daten.vorname;
-  strNachname = Daten.nachname;
+  time(&now);
+  localtime_r(&now, &tm);
+  //strVorname = Daten.vorname;
+  //strNachname = Daten.nachname;
+  //strCrash = Daten.CrashLog;
 
   doc["compile"] = __DATE__ " " __TIME__;
-  doc["vorname"] = strVorname;
-  doc["nachname"] = strNachname;
+  strOutput = Daten.vorname;
+  doc["vorname"] = strOutput;
+  strOutput = Daten.nachname;
+  doc["nachname"] = strOutput;
   doc["foermlich"] = Daten.foermlich;
   doc["geschlecht"] = Daten.geschlecht;
   doc["vcc"] = ESP.getVcc();
-  doc["wochentag"] = Wochentag[weekday(now())];
-  doc["tag"] = MakeDateString(now());
-  doc["uhrzeit"] = MakeTimeString(now());
+  doc["wochentag"] = Wochentag[tm.tm_wday];
+  doc["tag"] = MakeDateString();
+  doc["uhrzeit"] = MakeTimeString();
   doc["rentein"] = DaysLeft;
   doc["rente"] = Daten.rente;
   if (Sensoren.bhOK)
@@ -87,19 +92,36 @@ void handleJSON(void) {
   if (Sensoren.bmeOK) {
     doc["temperatur"] = (int)Sensoren.Temperatur;
     doc["feuchte"] = (int)Sensoren.Feuchte;
-    doc["druck"] = (int)(Sensoren.Druck / 100);
+    #ifdef PCB_VERSION1
+      doc["druck"] = (int)(Sensoren.Druck / 100);
+    #else
+      doc["druck"] = 0;
+    #endif
   }
   else {
     doc["temperatur"] = "--";
     doc["feuchte"] = "--";
     doc["druck"] = "--";
   }
+  doc["signal"] = Signal;
+  doc["county"] = County;
+  doc["inzidenz"] = Inzidenz;
+  doc["ags"] = Daten.InzAGS;
+  doc["showInz"] = Daten.ShowInz;
+  doc["baseFile"] = BaseFile;
+  doc["serialnumber"] = Serialnumber;
+  doc["resetReason"] = ESP.getResetReason();
+  doc["startTime"] = StartTime;
+  strOutput = Daten.CrashLog;
+  doc["crash"] = strOutput;
   serializeJson(doc, JSONBuffer);
+  Serial.print("\nsendJSON...\n");
+  serializeJsonPretty(doc, Serial);
   server.send(200, "text/plane", JSONBuffer); //Send JSON Data to client ajax request
 }
 
 void readJSON() {
-  DynamicJsonDocument doc(512);
+  DynamicJsonDocument doc(2048);
 
   if (server.hasArg("plain") == false) { //Check if body received
     server.send(200, "text/plain", "JSON not received");
@@ -113,15 +135,48 @@ void readJSON() {
     Serial.println(error.f_str());
     return;
   }
+  Serial.print("readJSON...");
+  serializeJsonPretty(doc, Serial);
   GetEE();
   strcpy(Daten.vorname, doc["vorname"]);
   strcpy(Daten.nachname, doc["nachname"]);
+  strcpy(Daten.InzAGS, doc["ags"]);
   Daten.foermlich = doc["foermlich"];
   Daten.geschlecht = doc["geschlecht"];
   Daten.rente = doc["rente"];
   Daten.LED_Bright = doc["bright"];
   Daten.LED_Blink = doc["blink"];
   Daten.ShowIP = doc["showIP"];
-  PutEE();
+  Daten.ShowInz = doc["showInz"];
+  if (!GetJSON()) {  // RKI holen
+    Inzidenz = 9999.9;  // Fehlermeldung
+    InzidenzInt = 9999;
+    Serial.printf("Fehler vom RKI: Inzidenz auf %f, Anzeige Inz. auf %d gesetzt\n", Inzidenz, InzidenzInt);
+    NextRKI = millis() + 10000;
+  }
+  else {
+    Serial.printf("Für AGS %s (%s) -> Inzidenz: %f (int: %d)\n", AGS, County, Inzidenz, InzidenzInt);
+    NextRKI = millis() + NEXT_RKI;
+  }
   Serial.println("Daten gespeichert");
+  PutEE();
+}
+
+void rebootHost () {
+  Serial.println("Reboot ping");
+  Serial.println("ESP Reboot");
+  delay(1000);
+  ESP.restart();
+  delay(1000);
+}
+
+void initEEPROM () {
+  Serial.println("EEPROM initialisieren");
+  Serial.println("ESP Reboot");
+  Daten.check = 0x0;
+  PutEE();
+  InitEE();
+  delay(1000);
+  ESP.restart();
+  delay(1000);
 }

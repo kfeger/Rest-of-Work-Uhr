@@ -1,43 +1,56 @@
-String MakeDateString(time_t DateTime) {
+String MakeDateString(void) {
   String DateString = "";
-  DateString = day(DateTime);
-  DateString += ".";
-  DateString += month(DateTime);
-  DateString += ".";
-  DateString += year(DateTime);
+  DateString += tm.tm_mday;
+  //Serial.println(""); Serial.print("tm.tm_mday "), Serial.println(tm.tm_mday);
+  DateString += ". ";
+  DateString += Monate[tm.tm_mon];
+  DateString += " ";
+  DateString += tm.tm_year + 1900;
   return DateString;
 }
 
-String MakeTimeString(time_t DateTime) {
+String MakeTimeString(void) {
   String TimeString = "";
-  TimeString += hour(DateTime);
+  TimeString += tm.tm_hour;
   TimeString += ":";
-  if(minute(DateTime) < 10)
+  if (tm.tm_min < 10)
     TimeString += "0";
-  TimeString += minute(DateTime);
+  TimeString += tm.tm_min;
   return TimeString;
 }
 
 int MakeDateDisplay (void) {
   int Day, Month;
-  Day = day(now());
-  Month = month(now());
-  return(Day * 100 + Month);
+  Day = tm.tm_mday;
+  Month = tm.tm_mon + 1;
+  return (Day * 100 + Month);
 }
 
-time_t SyncTimeToNTP(void) {
-  Serial.println("******Time-Sync******");
-  timeClient.update();
-  return(LTZ.toLocal(timeClient.getEpochTime(), &tcr));
+void wmPrintAP (WiFiManager *myWiFiManager) {
+  SAA.printAP();
 }
 
-time_t TimeCalc (int Td, int Tm, int Ty) {
-  tmElements_t Tin;
-  Tin.Second = 0;
-  Tin.Minute = 0;
-  Tin.Hour = 0;
-  Tin.Day = Td;
-  Tin.Month = Tm;
-  Tin.Year = Ty;
-  return (makeTime(Tin));
+void MakeTimeDisplay(void) {
+  if (Daten.LED_Blink) {
+    if (tm.tm_sec & 1) {
+      SAA.printTime(tm.tm_hour * 100 + tm.tm_min, true);
+    }
+    else {
+      SAA.printTime(tm.tm_hour * 100 + tm.tm_min, false);
+    }
+  }
+  else {
+    SAA.printTime(tm.tm_hour * 100 + tm.tm_min, true);
+  }
+}
+
+void GetSerialnumber (void) {
+  int i = 0;
+  for(i = 0; i < 4; i++) {
+    Serialnumber[i] = random(0x41, 0x5b);
+  }
+  for(i ; i < 9; i++) {
+    Serialnumber[i] = random(0x30, 0x3a);
+    Serialnumber[i+1] = 0;
+  }
 }

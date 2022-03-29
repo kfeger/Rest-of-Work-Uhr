@@ -3,10 +3,37 @@
 <html>
     <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>RoW-Einstellungen</title>
 		<script type="text/javascript" src="settingsproc.js"></script>
 		<style>
 			@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,700;1,400&family=Sofia&display=swap');
+			.styled {
+				border: 0;
+				line-height: 2.5;
+				padding: 0 20px;
+				font-size: 1rem;
+				text-align: center;
+				color: #fff;
+				text-shadow: 1px 1px 1px #000;
+				border-radius: 10px;
+				background-color: rgba(220, 0, 0, 1);
+				background-image: linear-gradient(to top left,
+												  rgba(0, 0, 0, .2),
+												  rgba(0, 0, 0, .2) 30%,
+												  rgba(0, 0, 0, 0));
+				box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+							inset -2px -2px 3px rgba(0, 0, 0, .6);
+			}
+
+			.styled:hover {
+				background-color: rgba(255, 0, 0, 1);
+			}
+
+			.styled:active {
+				box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+							inset 2px 2px 3px rgba(0, 0, 0, .6);
+			}
 			table, th, td {
 			  border: thin solid black;
 			  border-collapse: collapse;
@@ -102,6 +129,15 @@
     <td><input type="checkbox" id="foermlich" checked></td>
   </tr>
   <tr>
+    <td align="right">Inzidenz anz.</td>
+    <td><input type="checkbox" id="showInz" checked></td>
+  </tr>
+  <tr>
+    <td align="right">AGS</td>
+    <td><input type="text" id="ags"></td>
+	<td><span id="checkCounty">... </span></td>
+  </tr>
+  <tr>
     <td align="right">Ruhestand ab</td>
     <td align="left">
 	<input type="date" id="renteInput" 	min="2018-01-01"</td>
@@ -121,11 +157,20 @@
   </tr>
 </table>
 <br>
-<button class="button" onclick="sendJSON()" id="RetSpeichern">speichern</button>
+<tr>
+	<td><a href="https://npgeo-corona-npgeo-de.hub.arcgis.com/datasets/917fc37a709542548cc3be077a786c17/explore?location=50.804920%2C13.514625%2C6.38" target="_blank"><button class="favorite styled" id="agsGet">AGS finden</button></a></td>
+	<td><button class="favorite styled" onclick="sendJSON()" id="RetSpeichern">speichern</button></td>
+	<td><button class="favorite styled" onclick="sendReboot()" id="reboot">neu starten</button></td>
+	<td><button class="favorite styled" onclick="sendInit()" id="reboot">Einst. löschen</button></td>
+	<td><a href="index.html"><button class="favorite styled" >zur&uuml;ck</button></a></td>
+</tr>
 </font>
 
-<p><a href="index.html">zur&uuml;ck</a></p>
+<!--<p><a href="index.html">zur&uuml;ck</a></p>-->
 <p id="Heute"></p>
+<p><a href="json.html" style="text-decoration: none"  target="_blank">Version</a>sdatum: <span id="compile">---</span><br>
+Projekt: <span id="baseFile">---</span><br>
+<b>&copy; by ottO 2020</b></p>
 
 
 

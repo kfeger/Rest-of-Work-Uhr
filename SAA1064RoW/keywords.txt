@@ -1,0 +1,45 @@
+#######################################
+# Syntax Coloring Map For SAA1064RoW
+# vor dem Aufruf muss V1 oder V2 definert sein.
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+SAA1064RoW	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin   KEYWORD2
+begin   KEYWORD2
+brightness  KEYWORD2
+print   KEYWORD2
+print   KEYWORD2
+print   KEYWORD2
+printDate   KEYWORD2
+printTime   KEYWORD2
+printYear   KEYWORD2
+printTemp   KEYWORD2
+printHum    KEYWORD2
+printDashDash   KEYWORD2
+print4Dot   KEYWORD2
+printDotDot KEYWORD2
+dash    KEYWORD2
+blank   KEYWORD2
+dashdp  KEYWORD2
+printAP KEYWORD2
+printFun    KEYWORD2
+printLongFun    KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+DIGIT	LITERAL1
+SEG	LITERAL1
+CONTROL_BYTE	LITERAL1
+
+#######################################
+
