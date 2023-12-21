@@ -4,7 +4,7 @@ void handleRoot() {
 }
 
 bool loadFromSPIFFS(String path) {
-  Serial.print("path ist ");
+  //Serial.print("path ist ");
   String dataType = "text/plain";
   if (path.endsWith("/"))
     path += "index.htm";
@@ -27,7 +27,7 @@ bool loadFromSPIFFS(String path) {
   }
 
   dataFile.close();
-  Serial.println(path);
+  //Serial.println(path);
   return true;
 }
 
@@ -92,22 +92,15 @@ void handleJSON(void) {
   if (Sensoren.bmeOK) {
     doc["temperatur"] = (int)Sensoren.Temperatur;
     doc["feuchte"] = (int)Sensoren.Feuchte;
-    #ifdef PCB_VERSION1
-      doc["druck"] = (int)(Sensoren.Druck / 100);
-    #else
-      doc["druck"] = 0;
-    #endif
+    doc["druck"] = (int)(Sensoren.Druck / 100);
   }
   else {
     doc["temperatur"] = "--";
     doc["feuchte"] = "--";
     doc["druck"] = "--";
   }
+  doc["withBME"] = withBME;
   doc["signal"] = Signal;
-  doc["county"] = County;
-  doc["inzidenz"] = Inzidenz;
-  doc["ags"] = Daten.InzAGS;
-  doc["showInz"] = Daten.ShowInz;
   doc["baseFile"] = BaseFile;
   doc["serialnumber"] = Serialnumber;
   doc["resetReason"] = ESP.getResetReason();
@@ -115,8 +108,8 @@ void handleJSON(void) {
   strOutput = Daten.CrashLog;
   doc["crash"] = strOutput;
   serializeJson(doc, JSONBuffer);
-  Serial.print("\nsendJSON...\n");
-  serializeJsonPretty(doc, Serial);
+  //Serial.print("\nsendJSON...\n");
+  //serializeJsonPretty(doc, Serial);
   server.send(200, "text/plane", JSONBuffer); //Send JSON Data to client ajax request
 }
 
@@ -140,24 +133,12 @@ void readJSON() {
   GetEE();
   strcpy(Daten.vorname, doc["vorname"]);
   strcpy(Daten.nachname, doc["nachname"]);
-  strcpy(Daten.InzAGS, doc["ags"]);
   Daten.foermlich = doc["foermlich"];
   Daten.geschlecht = doc["geschlecht"];
   Daten.rente = doc["rente"];
   Daten.LED_Bright = doc["bright"];
   Daten.LED_Blink = doc["blink"];
   Daten.ShowIP = doc["showIP"];
-  Daten.ShowInz = doc["showInz"];
-  if (!GetJSON()) {  // RKI holen
-    Inzidenz = 9999.9;  // Fehlermeldung
-    InzidenzInt = 9999;
-    Serial.printf("Fehler vom RKI: Inzidenz auf %f, Anzeige Inz. auf %d gesetzt\n", Inzidenz, InzidenzInt);
-    NextRKI = millis() + 10000;
-  }
-  else {
-    Serial.printf("Für AGS %s (%s) -> Inzidenz: %f (int: %d)\n", AGS, County, Inzidenz, InzidenzInt);
-    NextRKI = millis() + NEXT_RKI;
-  }
   Serial.println("Daten gespeichert");
   PutEE();
 }

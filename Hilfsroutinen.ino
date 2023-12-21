@@ -45,12 +45,17 @@ void MakeTimeDisplay(void) {
 }
 
 void GetSerialnumber (void) {
+  uint8_t macAddr[6];
+  WiFi.macAddress(macAddr);
+  sprintf(Serialnumber, "RoW.%02x.%02x.%02x.%02x.%02x.%02x", macAddr[0], macAddr[1], macAddr[2], macAddr[3], macAddr[4], macAddr[5]);
+  /*
   int i = 0;
-  for(i = 0; i < 4; i++) {
-    Serialnumber[i] = random(0x41, 0x5b);
+  for (i = 0; i < 4; i++) {
+  Serialnumber[i] = random(0x41, 0x5b);
   }
-  for(i ; i < 9; i++) {
-    Serialnumber[i] = random(0x30, 0x3a);
-    Serialnumber[i+1] = 0;
+  for (i ; i < 9; i++) {
+  Serialnumber[i] = random(0x30, 0x3a);
+    Serialnumber[i + 1] = 0;
   }
+  */
 }

@@ -9,7 +9,6 @@ void InitEE (void) {
     Daten.check = 0x55aa;
     strcpy(Daten.vorname, "John");
     strcpy(Daten.nachname, "Doe");
-    strcpy(Daten.InzAGS, "14612");  // Dresden
     Daten.rente = 2026512000; // 21.03.2034, 00:00
     Daten.foermlich = 0;
     Daten.geschlecht = 0;
@@ -17,7 +16,6 @@ void InitEE (void) {
     Daten.LED_Bright = 5;
     Daten.LED_Blink = 0;
     Daten.ShowIP = 1;
-    Daten.ShowInz = 1;
     strcpy(Daten.CrashLog, "kein Eintrag, EE init.");
     EEPROM.put(0, Daten);
     EEPROM.commit();
