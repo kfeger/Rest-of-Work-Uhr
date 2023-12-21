@@ -129,15 +129,6 @@
     <td><input type="checkbox" id="foermlich" checked></td>
   </tr>
   <tr>
-    <td align="right">Inzidenz anz.</td>
-    <td><input type="checkbox" id="showInz" checked></td>
-  </tr>
-  <tr>
-    <td align="right">AGS</td>
-    <td><input type="text" id="ags"></td>
-	<td><span id="checkCounty">... </span></td>
-  </tr>
-  <tr>
     <td align="right">Ruhestand ab</td>
     <td align="left">
 	<input type="date" id="renteInput" 	min="2018-01-01"</td>
@@ -158,7 +149,6 @@
 </table>
 <br>
 <tr>
-	<td><a href="https://npgeo-corona-npgeo-de.hub.arcgis.com/datasets/917fc37a709542548cc3be077a786c17/explore?location=50.804920%2C13.514625%2C6.38" target="_blank"><button class="favorite styled" id="agsGet">AGS finden</button></a></td>
 	<td><button class="favorite styled" onclick="sendJSON()" id="RetSpeichern">speichern</button></td>
 	<td><button class="favorite styled" onclick="sendReboot()" id="reboot">neu starten</button></td>
 	<td><button class="favorite styled" onclick="sendInit()" id="reboot">Einst. löschen</button></td>
@@ -166,7 +156,6 @@
 </tr>
 </font>
 
-<!--<p><a href="index.html">zur&uuml;ck</a></p>-->
 <p id="Heute"></p>
 <p><a href="json.html" style="text-decoration: none"  target="_blank">Version</a>sdatum: <span id="compile">---</span><br>
 Projekt: <span id="baseFile">---</span><br>

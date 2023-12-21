@@ -9,6 +9,9 @@ var LedValue3 = "\" width=\"60\" height=\"60\"> </h2>";
 var imgR = new Image();
 var imgG = new Image();
 var imgBlank = new Image();
+var InitialLoad = true;
+
+var serlialNumber;
 
 function getData() {
   var xhttp = new XMLHttpRequest();
@@ -16,13 +19,9 @@ function getData() {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
 		if (this.responseText == "1") {
-			//document.getElementById("led1").innerHTML = '<img src = "/LED-R.png">';
-			//document.getElementById("led2").innerHTML = '<img src = "/LED-G.png">';
 			LedValue = LedValue1 + "/LED-R.png" + LedValue2 + "/LED-G.png" + LedValue3;
 		}
 		else {
-			//document.getElementById("led1").innerHTML = '<img src = "/LED-G.png">';
-			//document.getElementById("led2").innerHTML = '<img src = "/LED-R.png">';
 			LedValue = LedValue1 + "/LED-G.png" + LedValue2 + "/LED-R.png" + LedValue3;
 		}
       document.getElementById("BlinkLED").innerHTML = LedValue;
@@ -41,7 +40,6 @@ setInterval(function() {
   // Call a function repetatively with 1 Second interval
   getData();
 }, 1234); //1234ms update rate
-
 
 
 function getJSON() {
@@ -70,26 +68,22 @@ function getJSON() {
 		document.getElementById("uhrzeit").innerHTML = ESPObj.uhrzeit;
 		document.getElementById("compile").innerHTML = ESPObj.compile;
 		if (ESPObj.rentein >= 0)
-			//document.getElementById("rentein").innerHTML = ESPObj.rentein;
 			document.getElementById("renteText").innerHTML = "<h2>Strecke bis zum Ziel...<br>...noch <font color = \"red\">" + ESPObj.rentein + "</font> Tage.</h2>"
 		else
 			document.getElementById("renteText").innerHTML = "<h2>Im Ziel angekommen...<br>...seit <font color = \"red\">" + (ESPObj.rentein * -1) + "</font> Tage.</h2>"
 		document.getElementById("temperatur").innerHTML = ESPObj.temperatur;
 		document.getElementById("feuchte").innerHTML = ESPObj.feuchte;
-        
-        if(ESPObj.druck == 0)
-            document.getElementById("druck").innerHTML = "---";
-        else
+        if(ESPObj.withBME == 1) {
             document.getElementById("druck").innerHTML = ESPObj.druck;
-        
+            document.getElementById("druckUnit").innerHTML = "hPa";
+        }
+        else {
+            document.getElementById("druck").innerHTML = "kein";
+            document.getElementById("druckUnit").innerHTML = "Sensor";
+        }
 		document.getElementById("helligkeit").innerHTML = ESPObj.helligkeit;
 		document.getElementById("vcc").innerHTML = ESPObj.vcc;
-		document.getElementById("county").innerHTML = ESPObj.county;
-		//document.getElementById("ags").innerHTML = ESPObj.ags;
-		var Inzidenz = ESPObj.inzidenz;
-		document.getElementById("inzidenz").innerHTML = Inzidenz.toFixed(1);
 		document.getElementById("baseFile").innerHTML = ESPObj.baseFile;
-		document.getElementById("serialnumber").innerHTML = ESPObj.serialnumber;
 	}
   };
   xhttp.open("GET", "readJSON", true);
@@ -101,4 +95,14 @@ function PreLoadImages() {
     imgG.src = "/LED-G.png";
     imgBlank.src = "/LED-Blank.png";
 }
+
+function copySN() {
+    var Url = document.getElementById("paste-box");
+    Url.value = "Test";
+    Url.select();
+    document.execCommand("Copy");
+    /* Alert the copied text */
+    alert("Copied the text: " + Url.value);
+}
+
 

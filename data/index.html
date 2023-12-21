@@ -6,6 +6,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Die Rente naht!</title>
 		<link rel="stylesheet" type="text/css" href="indexstyle.css">
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script type="text/javascript" src="qrcode.js"></script>
 		<script type="text/javascript" src="indexproc.js"></script>
 		<style>
 			@import url('https://fonts.googleapis.com/css2?family=Monofett&family=Monoton&family=Open+Sans:ital,wght@0,300;0,700;1,400&family=Sofia&display=swap');
@@ -27,8 +29,6 @@
   <h1>Es ist <span id="wochentag">...</span>,<br>
   der <span id="tag">...</span>, <span id="uhrzeit">...</span></h1>
   <span id="renteText">... </span>
-  <h2>Inzidenz für <span id="county">... </span><br>
-  ist heute <span id="inzidenz">... </span></h2><br>
 </div>
 
 <font size="4em" face="Open Sans" >
@@ -47,7 +47,7 @@
   <tr>
     <td align="right">Luftdruck</td>
     <td align="right"><span id="druck">...</span></td>
-    <td align="left">hPa</td>
+    <td align="left"><span id="druckUnit"></td>
   </tr>
   <tr>
     <td align="right">Raumhelligkeit</td>
@@ -74,8 +74,8 @@
 
 <p><a href="json.html" style="text-decoration: none"  target="_blank">Version</a>sdatum: <span id="compile">---</span><br>
 Projekt: <span id="baseFile">---</span><br>
-<b>&copy; by ottO 2020</b>
-<br>Seriennummer: <span id="serialnumber"><br>
+<b>&copy; by ottO 2020</b><br><br>
+
 </p>
 </body>
 </html>
